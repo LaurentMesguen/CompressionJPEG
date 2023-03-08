@@ -1,3 +1,0 @@
-C:/Users/FU427LME/CLionProjects/CompressionJPEGcpp/cmake-build-debug/CMakeFiles/CompressionJPEGcpp.dir
-C:/Users/FU427LME/CLionProjects/CompressionJPEGcpp/cmake-build-debug/CMakeFiles/edit_cache.dir
-C:/Users/FU427LME/CLionProjects/CompressionJPEGcpp/cmake-build-debug/CMakeFiles/rebuild_cache.dir
