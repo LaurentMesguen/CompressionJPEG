@@ -1,2 +1,2 @@
 # CompressionJPEGcpp
- This tool implement the full chain of JPEG compression/decompression
+ This tool implements the full chain of JPEG compression/decompression
