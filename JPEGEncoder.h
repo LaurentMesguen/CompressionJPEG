@@ -8,6 +8,7 @@
 
 #include "Image.h"
 
+#include "Quantization.h"
 
 //enum EncodingType
 
@@ -20,20 +21,20 @@ private:
     vector<Matrix<>> uBlocks;
     vector<Matrix<>> vBlocks;
 
-    vector<Matrix<double>> yBlocksAfterDCT;
-    vector<Matrix<double>> uBlocksAfterDCT;
-    vector<Matrix<double>> vBlocksAfterDCT;
+    vector<Matrix<int>> yBlocksAfterDCT;
+    vector<Matrix<int>> uBlocksAfterDCT;
+    vector<Matrix<int>> vBlocksAfterDCT;
     void downsampling();
     void downsampling(Matrix<>& matrix);
     void decomposeBlock8Pixels();
     void decomposeBlock8Pixels(const Matrix<>& in, vector<Matrix<>>& out );
-    void initMatrix(vector<Matrix<double>>* mat, int size);
+    void initMatrix(vector<Matrix<int>>* mat, int size);
     void printBlocks(const vector<Matrix<>>& blocks);
-    void printBlocksAfterDCT(const vector<Matrix<double>>& blocks);
+    void printBlocksAfterDCT(const vector<Matrix<int>>& blocks);
     void dct();
-    void dct(vector <Matrix<>> &in, vector <Matrix<double>> &out);
+    void dct(vector <Matrix<>> &in, vector <Matrix<int>> &out);
     void quantization();
-    void quantization(vector<Matrix<double>> * mat);
+    void quantization(vector<Matrix<int>> * mat, QuantizationType type);
 
 public:
     JPEGEncoder(Image* inputImage);

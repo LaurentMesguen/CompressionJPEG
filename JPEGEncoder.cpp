@@ -26,6 +26,7 @@ void JPEGEncoder::encode()
     decomposeBlock8Pixels();
     dct();
     quantization();
+
 }
 
 /***
@@ -112,7 +113,7 @@ void JPEGEncoder::decomposeBlock8Pixels(const Matrix<>& in, vector<Matrix<>>& ou
     }
 }
 
-void JPEGEncoder::initMatrix(vector<Matrix<double>>* mat, int size)
+void JPEGEncoder::initMatrix(vector<Matrix<int>>* mat, int size)
 {
     mat->resize(size);
     for(int i = 0; i< size; i++)
@@ -126,11 +127,11 @@ void JPEGEncoder::initMatrix(vector<Matrix<double>>* mat, int size)
  * @param blocks
  */
 
-void JPEGEncoder::dct(vector <Matrix<>> &in, vector <Matrix<double>> &out) {
+void JPEGEncoder::dct(vector <Matrix<>> &in, vector <Matrix<int>> &out) {
 
     for(int i = 0; i < in.size(); i++)
     {
-        Matrix<double> mat(8, 8);
+        Matrix<int> mat(8, 8);
         DCT::computeDCT(&in[i], &mat);
         out[i] = mat;
     }
@@ -169,7 +170,7 @@ void JPEGEncoder::printBlocks() {
     printBlocks(vBlocks);
 }
 
-void JPEGEncoder::printBlocksAfterDCT(const vector<Matrix<double>>& blocks) {
+void JPEGEncoder::printBlocksAfterDCT(const vector<Matrix<int>>& blocks) {
     for(int i =0; i< blocks.size(); i++)
     {
         blocks.at(i).printSignedNumber();
@@ -188,12 +189,17 @@ void JPEGEncoder::printBlocksAfterDCT() {
 
 void JPEGEncoder::quantization()
 {
-    quantization(&yBlocksAfterDCT);
-    quantization(&uBlocksAfterDCT);
-    quantization(&vBlocksAfterDCT);
+
+    quantization(&yBlocksAfterDCT, QuantizationType::LUMINANCE);
+    quantization(&uBlocksAfterDCT, QuantizationType::CHROMINANCE);
+    quantization(&vBlocksAfterDCT, QuantizationType ::CHROMINANCE);
 }
 
-void JPEGEncoder::quantization(vector<Matrix<double>> * mat)
+void JPEGEncoder::quantization(vector<Matrix<int>> * mat, QuantizationType type)
 {
-
+    DefaultQuantization quant;
+    for(int i = 0; i < mat->size(); i++)
+    {
+        quant.quantizeBlock(mat->at(i), type);
+    }
 }

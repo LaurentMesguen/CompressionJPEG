@@ -16,7 +16,7 @@ class DCT {
 public:
 
     DCT();
-    static void computeDCT(const Matrix<>* in, Matrix<double>* out);
+    static void computeDCT(const Matrix<>* in, Matrix<int>* out);
 };
 
 

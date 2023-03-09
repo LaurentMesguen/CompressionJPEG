@@ -12,7 +12,7 @@ DCT::DCT()
 }
 
 
-void DCT::computeDCT(const Matrix<>* in, Matrix<double>* out)
+void DCT::computeDCT(const Matrix<>* in, Matrix<int>* out)
 {
     double alpha_i, alpha_j, sum;
     for (int i = 0; i < 8; i++) {
