@@ -4,17 +4,6 @@
 * Created  : 08.03.23                            *
 **************************************************/
 
-/** Fonction ********************************************************************************************
-*                                                                                                       *
-* Description : Ce fichier contient les fonctions permettant d'allouer en mémoire les structures Image  *
-*               et ImageVector. La structure Image permet de représenter une image sous forme de 3      *
-*               matrices RGB. La structure ImageVector permet elle de représenter une image sous forme  *
-*               de lignes (vecteurs) qui représentent chacuns un bloc 8*8 pixels après lecture zigzag.  *
-*               Le fichier contient également les fonctions permettant de désallouer ces structures en  *
-*               mémoire ainsi qu'une fonction de recopie de structure Image.                            *
-*                                                                                                       *
-*********************************************************************************************************/
-
 #include <string>
 #include <fstream>
 #include <iostream>
