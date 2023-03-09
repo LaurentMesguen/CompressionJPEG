@@ -65,7 +65,7 @@ void Image::readFromFile(string filename) {
     {
         for (int j = 0; j < width; j++)
         {
-            unsigned char color[3];
+            uint8_t color[3];
             file.read(reinterpret_cast<char*>(color), 3);
             r.setPixel(i, j , color[2]);
             g.setPixel(i, j , color[1]);

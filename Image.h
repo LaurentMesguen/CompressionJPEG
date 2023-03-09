@@ -20,13 +20,13 @@ private :
 
     string filename;
     // RGB
-    Matrix r;
-    Matrix g;
-    Matrix b;
+    Matrix<> r;
+    Matrix<> g;
+    Matrix<> b;
     // YUV
-    Matrix y;
-    Matrix u;
-    Matrix v;
+    Matrix<> y;
+    Matrix<> u;
+    Matrix<> v;
 
     int height;
     int width;
@@ -45,13 +45,13 @@ public:
     int getWidth() const {return width;}
     string getFilename() const {return filename;}
     // RGB
-    Matrix& getR()  {return r;}
-    Matrix& getG()  {return g;}
-    Matrix& getB()  {return b;}
+    Matrix<>& getR()  {return r;}
+    Matrix<>& getG()  {return g;}
+    Matrix<>& getB()  {return b;}
     // YUV
-    Matrix& getY()  {return y;}
-    Matrix& getU()  {return u;}
-    Matrix& getV()  {return v;}
+    Matrix<>& getY()  {return y;}
+    Matrix<>& getU()  {return u;}
+    Matrix<>& getV()  {return v;}
 };
 
 

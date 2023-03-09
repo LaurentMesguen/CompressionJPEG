@@ -4,21 +4,28 @@
 
 #include <iostream>
 #include "JPEGEncoder.h"
+#include "DCT.h"
 
 using namespace std;
 
+/***
+ *
+ * @param inputImage
+ */
+
 JPEGEncoder::JPEGEncoder(Image *inputImage) : rgbImage(inputImage){
 
-    yBlocks.resize(rgbImage->getWidth()*rgbImage->getHeight()/64);
-    uBlocks.resize(rgbImage->getWidth()*rgbImage->getHeight()/64);
-    vBlocks.resize(rgbImage->getWidth()*rgbImage->getHeight()/64);
 }
+/***
+ *
+ */
 
 void JPEGEncoder::encode()
 {
     downsampling();
     decomposeBlock8Pixels();
     dct();
+    quantization();
 }
 
 /***
@@ -32,8 +39,12 @@ void JPEGEncoder::downsampling() {
     cout << "Downsampling finished." << endl;
 }
 
-void JPEGEncoder::downsampling(Matrix &matrix) {
+/***
+ *
+ * @param matrix
+ */
 
+void JPEGEncoder::downsampling(Matrix<> &matrix) {
 
     uint32_t mean4Pixels;
     for (int i = 0; i < rgbImage->getHeight(); i+=2)
@@ -51,6 +62,8 @@ void JPEGEncoder::downsampling(Matrix &matrix) {
 
 }
 
+
+
 /***
 *  These methods aim to decompose the image in blocks of 8*8 pixels.
 */
@@ -60,9 +73,19 @@ void JPEGEncoder::decomposeBlock8Pixels() {
     decomposeBlock8Pixels(rgbImage->getY(), yBlocks);
     decomposeBlock8Pixels(rgbImage->getU(), uBlocks);
     decomposeBlock8Pixels(rgbImage->getV(), vBlocks);
+    initMatrix(&yBlocksAfterDCT, yBlocks.size());
+    initMatrix(&uBlocksAfterDCT, uBlocks.size());
+    initMatrix(&vBlocksAfterDCT, vBlocks.size());
+    cout << "8*8 pixels blocks decomposition done." << endl;
 }
 
-void JPEGEncoder::decomposeBlock8Pixels(const Matrix& in, vector<Matrix>& out )
+/***
+ *
+ * @param in
+ * @param out
+ */
+
+void JPEGEncoder::decomposeBlock8Pixels(const Matrix<>& in, vector<Matrix<>>& out )
 {
 
     if (in.getHeight() % 8 != 0 ||  in.getWidth() % 8 != 0)
@@ -82,23 +105,54 @@ void JPEGEncoder::decomposeBlock8Pixels(const Matrix& in, vector<Matrix>& out )
                 for(int j = 0; j < 8; j++)
                 {
                     mat.setPixel(i, j, in.at(i+row, j+col));
-                    //cout << "(" << i-row << ", " << j-col << ") - (" << i << ", " << j << ")" << endl;
                 }
             }
             out.push_back(mat);
         }
     }
-    cout << "8*8 pixels blocks decomposition done." << endl;
 }
 
+void JPEGEncoder::initMatrix(vector<Matrix<double>>* mat, int size)
+{
+    mat->resize(size);
+    for(int i = 0; i< size; i++)
+    {
+        mat->at(i).resize(8,8);
+    }
+}
+
+/***
+ *
+ * @param blocks
+ */
+
+void JPEGEncoder::dct(vector <Matrix<>> &in, vector <Matrix<double>> &out) {
+
+    for(int i = 0; i < in.size(); i++)
+    {
+        Matrix<double> mat(8, 8);
+        DCT::computeDCT(&in[i], &mat);
+        out[i] = mat;
+    }
+}
+
+/**
+ *
+ */
 void JPEGEncoder::dct()
 {
-    dct(yBlocks);
-    dct(uBlocks);
-    dct(vBlocks);
+    cout << "Computing DCT on YUV..." << endl;
+    dct(yBlocks, yBlocksAfterDCT);
+    dct(uBlocks, uBlocksAfterDCT);
+    dct(vBlocks, vBlocksAfterDCT);
+    cout << "DCT applied." << endl;
 }
+/**
+ *
+ * @param blocks
+ */
 
-void JPEGEncoder::printBlocks(const vector<Matrix>& blocks) {
+void JPEGEncoder::printBlocks(const vector<Matrix<>>& blocks) {
     for(int i =0; i< blocks.size(); i++)
     {
         blocks.at(i).print();
@@ -106,8 +160,40 @@ void JPEGEncoder::printBlocks(const vector<Matrix>& blocks) {
     }
 }
 
+/**
+ *
+ */
 void JPEGEncoder::printBlocks() {
     printBlocks(yBlocks);
     printBlocks(uBlocks);
     printBlocks(vBlocks);
+}
+
+void JPEGEncoder::printBlocksAfterDCT(const vector<Matrix<double>>& blocks) {
+    for(int i =0; i< blocks.size(); i++)
+    {
+        blocks.at(i).printSignedNumber();
+        cout << endl;
+    }
+}
+
+/**
+ *
+ */
+void JPEGEncoder::printBlocksAfterDCT() {
+    printBlocksAfterDCT(yBlocksAfterDCT);
+    printBlocksAfterDCT(uBlocksAfterDCT);
+    printBlocksAfterDCT(vBlocksAfterDCT);
+}
+
+void JPEGEncoder::quantization()
+{
+    quantization(&yBlocksAfterDCT);
+    quantization(&uBlocksAfterDCT);
+    quantization(&vBlocksAfterDCT);
+}
+
+void JPEGEncoder::quantization(vector<Matrix<double>> * mat)
+{
+
 }
