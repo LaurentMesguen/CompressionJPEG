@@ -11,31 +11,41 @@
 #include "Image.h"
 #include "JPEGEncoder.h"
 #include <string>
-#include <fstream>
 #include <iostream>
 
 using namespace std;
 
-int main (int argc, char* argv[]) {
+// TODO : add the quantification pace in the config file
+// TODO : add the encoding type in the config file
+// TODO : add the downsampling type in the config file
+// TODO : add unit tests. what tool to use ? google test ?
+// TODO : harmonize the code style (indentation, spaces, etc.)
+// TODO : add comments
+// TODO : make the target a library to be reused in the Qt project
+// TODO : enhance memory management (smart pointers ?)
+// TODO :
+
+int main(int argc, char *argv[]) {
 
     string root_path = "..\\";
 
     /** Read config file **/
-    Config config( root_path + "config.ini");
+    Config config(root_path + "config.ini");
     config.load();
     /********************************/
 
     // Get input BMP image
     Image inputImage;
-    inputImage.readFromFile(root_path + "img\\damier8.bmp");
-    inputImage.printRGB();
+    inputImage.readFromFile(root_path + "img\\lena256.bmp");
+    //inputImage.printRGB();
 
     /** Compression **/
     JPEGEncoder encoder(&inputImage);
     encoder.encode();
     //encoder.printBlocks();
-    encoder.printBlocksAfterDCT();
-    encoder.printVectors();
+    //encoder.printBlocksAfterDCT();
+    //encoder.printVectors();
+    //encoder.printRLEVectors();
 
     /** Decompression **/
 
@@ -43,8 +53,6 @@ int main (int argc, char* argv[]) {
     /*********************************/
 
     cout << endl << "Program finished" << endl << endl;
-
-
 
 
     return EXIT_SUCCESS;

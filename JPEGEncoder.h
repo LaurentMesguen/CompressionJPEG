@@ -7,10 +7,9 @@
 
 
 #include "Image.h"
-
+#include "RLE.h"
 #include "Quantization.h"
-
-//enum EncodingType
+#include "Huffman.h"
 
 
 class JPEGEncoder {
@@ -28,6 +27,12 @@ private:
     vector<vector<int>> yVectorsAfterZigZagScan;
     vector<vector<int>> uVectorsAfterZigZagScan;
     vector<vector<int>> vVectorsAfterZigZagScan;
+
+    vector<RLEVector> yRLEVectors;
+    vector<RLEVector> uRLEVectors;
+    vector<RLEVector> vRLEVectors;
+
+
     void downsampling();
     void downsampling(Matrix<>& matrix);
     void decomposeBlock8Pixels();
@@ -44,6 +49,8 @@ private:
     void zigZagScan(const vector<Matrix<int>>& in, vector<vector<int>>& out);
     void printVectors(const vector<vector<int>>& vectors);
     void printVector(const vector<int>& vec);
+    void rle();
+    void huffman();
 
 public:
     JPEGEncoder(Image* inputImage);
@@ -51,6 +58,7 @@ public:
     void printBlocks();
     void printBlocksAfterDCT();
     void printVectors();
+    void printRLEVectors();
 
     void encode();
 

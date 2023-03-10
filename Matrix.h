@@ -48,9 +48,9 @@ template<class T> void Matrix<T>::setPixel(int x, int y, T value) {
 template<class T> void Matrix<T>::print() const {
 
     cout << "[";
-    for (int y = 0 ; y < width ; y++) {
+    for (int x = 0 ; x < height ; x++) {
         cout << "[";
-        for(int x= 0; x < height; x++) {
+        for(int y= 0; y < width; y++) {
             cout << setw(3) << setfill('0') << (int) at(x, y) << ",";
         }
         cout << "]";
@@ -64,8 +64,8 @@ template<class T> void Matrix<T>::print() const {
 
 template<class T> void Matrix<T>::printSignedNumber() const {
 
-    for (int y = 0 ; y < width ; y++) {
-        for(int x= 0; x < height; x++) {
+    for (int x = 0 ; x < height ; x++) {
+        for(int y= 0; y < width; y++) {
             cout << setw(4) << setfill(' ') << at(x, y) << " ";
         }
         cout << endl;

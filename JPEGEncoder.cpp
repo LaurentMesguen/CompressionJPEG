@@ -27,9 +27,16 @@ void JPEGEncoder::encode()
     dct();
     quantization();
     zigZagScan();
-    //rle();
-    //huffman();
+    rle();
+    huffman();
+}
 
+void JPEGEncoder::rle() {
+    cout << "RLE encoding..." << endl;
+    yRLEVectors = RLE::encode(yVectorsAfterZigZagScan);
+    uRLEVectors = RLE::encode(uVectorsAfterZigZagScan);
+    vRLEVectors = RLE::encode(vVectorsAfterZigZagScan);
+    cout << "RLE encoding finished." << endl;
 }
 
 /***
@@ -277,4 +284,23 @@ vector<int> JPEGEncoder::zigZagScan(const Matrix<int> &in) {
 
     return vec;
 }
+
+void JPEGEncoder::printRLEVectors() {
+    cout << "Y vectors after RLE:" << endl;
+    RLE::print(yRLEVectors);
+    cout << "U vectors after RLE:" << endl;
+    RLE::print(uRLEVectors);
+    cout << "V vectors after RLE:" << endl;
+    RLE::print(uRLEVectors);
+}
+
+void JPEGEncoder::huffman()
+{
+    cout << "Huffman encoding..." << endl;
+    huffman(yRLEVectors, yHuffmanVectors);
+    huffman(uRLEVectors, uHuffmanVectors);
+    huffman(vRLEVectors, vHuffmanVectors);
+    cout << "Huffman encoding done." << endl;
+}
+
 

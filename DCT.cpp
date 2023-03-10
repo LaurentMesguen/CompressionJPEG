@@ -12,6 +12,8 @@ DCT::DCT()
 }
 
 
+// TODO : precompute the cosinus values to save time
+// TODO : factorize the code
 void DCT::computeDCT(const Matrix<>* in, Matrix<int>* out)
 {
     double alpha_i, alpha_j, sum;
