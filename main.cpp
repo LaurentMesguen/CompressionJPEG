@@ -28,13 +28,14 @@ int main (int argc, char* argv[]) {
     // Get input BMP image
     Image inputImage;
     inputImage.readFromFile(root_path + "img\\damier8.bmp");
-    inputImage.printYUV();
+    inputImage.printRGB();
 
     /** Compression **/
     JPEGEncoder encoder(&inputImage);
     encoder.encode();
     //encoder.printBlocks();
     encoder.printBlocksAfterDCT();
+    encoder.printVectors();
 
     /** Decompression **/
 

@@ -24,6 +24,10 @@ private:
     vector<Matrix<int>> yBlocksAfterDCT;
     vector<Matrix<int>> uBlocksAfterDCT;
     vector<Matrix<int>> vBlocksAfterDCT;
+
+    vector<vector<int>> yVectorsAfterZigZagScan;
+    vector<vector<int>> uVectorsAfterZigZagScan;
+    vector<vector<int>> vVectorsAfterZigZagScan;
     void downsampling();
     void downsampling(Matrix<>& matrix);
     void decomposeBlock8Pixels();
@@ -35,12 +39,18 @@ private:
     void dct(vector <Matrix<>> &in, vector <Matrix<int>> &out);
     void quantization();
     void quantization(vector<Matrix<int>> * mat, QuantizationType type);
+    void zigZagScan();
+    vector<int> zigZagScan(const Matrix<int>& in);
+    void zigZagScan(const vector<Matrix<int>>& in, vector<vector<int>>& out);
+    void printVectors(const vector<vector<int>>& vectors);
+    void printVector(const vector<int>& vec);
 
 public:
     JPEGEncoder(Image* inputImage);
     //~JPEGEncoder();
     void printBlocks();
     void printBlocksAfterDCT();
+    void printVectors();
 
     void encode();
 

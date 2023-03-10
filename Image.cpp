@@ -38,6 +38,10 @@ void Image::readFromFile(string filename) {
     width = infoHeader[4] + (infoHeader[5] << 8) + (infoHeader[6] << 16) + (infoHeader[7] << 24);
     height = infoHeader[8] + (infoHeader[9] << 8) + (infoHeader[10] << 16) + (infoHeader[11] << 24);
 
+    int bitsPerPixel = infoHeader[14] + (infoHeader[15] << 8) ;
+    int bytesPerPixel = bitsPerPixel / 8;
+
+    cout << "Bytes per pixel = " << bytesPerPixel << endl;
     cout << "File size = " << fileSize << " bytes" << endl;
     cout << "Height : " << height << " pixels." << endl;
     cout << "Width : " << width << " pixels." << endl;
@@ -50,12 +54,14 @@ void Image::readFromFile(string filename) {
     u.resize(height , width);
     v.resize(height , width);
 
+
+
     for(int i = height-1; i >= 0; i--)
     {
         for (int j = 0; j < width; j++)
         {
             uint8_t color[3];
-            file.read(reinterpret_cast<char*>(color), 3);
+            file.read(reinterpret_cast<char*>(color), bytesPerPixel);
             r.setPixel(i, j , color[2]);
             g.setPixel(i, j , color[1]);
             b.setPixel(i, j , color[0]);

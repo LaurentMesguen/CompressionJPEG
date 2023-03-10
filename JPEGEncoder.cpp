@@ -26,6 +26,9 @@ void JPEGEncoder::encode()
     decomposeBlock8Pixels();
     dct();
     quantization();
+    zigZagScan();
+    //rle();
+    //huffman();
 
 }
 
@@ -178,6 +181,31 @@ void JPEGEncoder::printBlocksAfterDCT(const vector<Matrix<int>>& blocks) {
     }
 }
 
+void JPEGEncoder::printVectors(const vector<vector<int>>& vectors) {
+    for(int i = 0; i < vectors.size(); i++)
+    {
+        printVector(vectors.at(i));
+    }
+}
+
+void JPEGEncoder::printVectors() {
+
+    cout << "Y vectors after zigzag scan:" << endl;
+    printVectors(yVectorsAfterZigZagScan);
+    cout << "U vectors after zigzag scan:" << endl;
+    printVectors(uVectorsAfterZigZagScan);
+    cout << "V vectors after zigzag scan:" << endl;
+    printVectors(vVectorsAfterZigZagScan);
+}
+
+void JPEGEncoder::printVector(const vector<int>& vec) {
+    for(int i = 0; i < vec.size(); i++)
+    {
+        cout << vec.at(i) << " ";
+    }
+    cout << endl;
+}
+
 /**
  *
  */
@@ -203,3 +231,50 @@ void JPEGEncoder::quantization(vector<Matrix<int>> * mat, QuantizationType type)
         quant.quantizeBlock(mat->at(i), type);
     }
 }
+
+void JPEGEncoder::zigZagScan()
+{
+    cout << "ZigZag scan..." << endl;
+    zigZagScan(yBlocksAfterDCT, yVectorsAfterZigZagScan);
+    zigZagScan(uBlocksAfterDCT, uVectorsAfterZigZagScan);
+    zigZagScan(vBlocksAfterDCT, vVectorsAfterZigZagScan);
+}
+
+void JPEGEncoder::zigZagScan(const vector<Matrix<int>> &in, vector<vector<int>> &out) {
+    for(int i = 0; i < in.size(); i++)
+    {
+        vector<int> vec = zigZagScan(in.at(i));
+        out.push_back(vec);
+    }
+}
+
+vector<int> JPEGEncoder::zigZagScan(const Matrix<int> &in) {
+    vector<int> vec;
+    const struct zigZagIndexes {
+        int row;
+        int col;
+    } zigZagIndexes[8*8] =
+            {
+                    {0, 0},
+                    {0, 1}, {1, 0},
+                    {2, 0}, {1, 1}, {0, 2},
+                    {0, 3}, {1, 2}, {2, 1}, {3, 0},
+                    {4, 0}, {3, 1}, {2, 2}, {1, 3}, {0, 4},
+                    {0, 5}, {1, 4}, {2, 3}, {3, 2}, {4, 1}, {5, 0},
+                    {6, 0}, {5, 1}, {4, 2}, {3, 3}, {2, 4}, {1, 5}, {0, 6},
+                    {0, 7}, {1, 6}, {2, 5}, {3, 4}, {4, 3}, {5, 2}, {6, 1}, {7, 0},
+                    {7, 1}, {6, 2}, {5, 3}, {4, 4}, {3, 5}, {2, 6}, {1, 7},
+                    {2, 7}, {3, 6}, {4, 5}, {5, 4}, {6, 3}, {7, 2},
+                    {7, 3}, {6, 4}, {5, 5}, {4, 6}, {3, 7},
+                    {4, 7}, {5, 6}, {6, 5}, {7, 4},
+                    {7, 5}, {6, 6}, {5, 7},
+                    {6, 7}, {7, 6},
+                    {7, 7}
+            };
+
+    for(int i=0; i<8*8; i++)
+        vec.push_back(in.at(zigZagIndexes[i].row, zigZagIndexes[i].col));
+
+    return vec;
+}
+
