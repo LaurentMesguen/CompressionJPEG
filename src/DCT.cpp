@@ -2,7 +2,7 @@
 // Created by FU427LME on 08/03/2023.
 //
 
-#include "DCT.h"
+#include "../include/DCT.h"
 
 
 

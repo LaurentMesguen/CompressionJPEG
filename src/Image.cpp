@@ -8,7 +8,7 @@
 #include <fstream>
 #include <iostream>
 #include <iomanip>
-#include "Image.h"
+#include "../include/Image.h"
 
 using namespace std;
 

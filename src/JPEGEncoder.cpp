@@ -3,8 +3,9 @@
 //
 
 #include <iostream>
-#include "JPEGEncoder.h"
-#include "DCT.h"
+#include "../include/JPEGEncoder.h"
+#include "../include/DCT.h"
+#include "../include/DPCM.h"
 
 using namespace std;
 
@@ -20,15 +21,24 @@ JPEGEncoder::JPEGEncoder(Image *inputImage) : rgbImage(inputImage){
  *
  */
 
+void JPEGEncoder::dpcm() {
+    cout << "DPCM encoding..." << endl;
+    DPCM::encode(yBlocksAfterDCT);
+    DPCM::encode(uBlocksAfterDCT);
+    DPCM::encode(vBlocksAfterDCT);
+    cout << "DPCM encoding finished." << endl;
+}
+
 void JPEGEncoder::encode()
 {
     downsampling();
     decomposeBlock8Pixels();
     dct();
     quantization();
+    dpcm();
     zigZagScan();
     rle();
-    huffman();
+    //huffman();
 }
 
 void JPEGEncoder::rle() {
@@ -297,9 +307,9 @@ void JPEGEncoder::printRLEVectors() {
 void JPEGEncoder::huffman()
 {
     cout << "Huffman encoding..." << endl;
-    huffman(yRLEVectors, yHuffmanVectors);
-    huffman(uRLEVectors, uHuffmanVectors);
-    huffman(vRLEVectors, vHuffmanVectors);
+//    yHuffmanVectors = Huffman::encode(yRLEVectors);
+//    uHuffmanVectors = Huffman::encode(uRLEVectors);
+//    vHuffmanVectors = Huffman::encode(vRLEVectors);
     cout << "Huffman encoding done." << endl;
 }
 

@@ -3,13 +3,10 @@ project(JPEGEncoder)
 
 set(CMAKE_CXX_STANDARD 23)
 
-add_executable(JPEGEncoder main.cpp
-        Config.cpp Config.h
-        Image.cpp Image.h
-        JPEGEncoder.cpp JPEGEncoder.h
-        Matrix.cpp Matrix.h
-        DCT.cpp DCT.h
-        Quantization.h
-        RLE.cpp RLE.h
-        Huffman.cpp Huffman.h
-        EncodingStrategy.cpp EncodingStrategy.h)
+include_directories(include)
+
+file(GLOB_RECURSE SOURCES "src/*.cpp")
+
+add_library(JPEGEncoder SHARED ${SOURCES})
+
+target_include_directories(JPEGEncoder PUBLIC include PRIVATE src)

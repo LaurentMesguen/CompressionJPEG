@@ -32,6 +32,9 @@ private:
     vector<RLEVector> uRLEVectors;
     vector<RLEVector> vRLEVectors;
 
+    vector<string> yHuffmanVectors;
+    vector<string> uHuffmanVectors;
+    vector<string> vHuffmanVectors;
 
     void downsampling();
     void downsampling(Matrix<>& matrix);
@@ -49,6 +52,7 @@ private:
     void zigZagScan(const vector<Matrix<int>>& in, vector<vector<int>>& out);
     void printVectors(const vector<vector<int>>& vectors);
     void printVector(const vector<int>& vec);
+    void dpcm();
     void rle();
     void huffman();
 

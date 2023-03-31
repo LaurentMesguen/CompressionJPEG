@@ -13,6 +13,12 @@
 
 using namespace std;
 
+struct Pixel {
+    int8_t r;
+    int8_t g;
+    int8_t b;
+};
+
 /*** This class aim to represent  ***/
 class Image {
 

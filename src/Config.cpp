@@ -4,7 +4,7 @@
 
 #include <fstream>
 #include <iostream>
-#include "Config.h"
+#include "../include/Config.h"
 
 Config::Config(string path) : configFilePath(path)
 {
