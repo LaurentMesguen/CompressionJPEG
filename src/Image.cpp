@@ -14,6 +14,7 @@ using namespace std;
 
 void Image::readFromFile(string filename) {
 
+    this->filename = filename;
     cout << "Reading bitmap file " << filename << endl;
     ifstream file{ filename, std::ios_base::binary };
     if(!file)
