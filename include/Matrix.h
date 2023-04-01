@@ -22,6 +22,8 @@ private:
 public :
     Matrix();
     Matrix(int height, int width);
+    Matrix(const vector<T> &vector);
+    Matrix(const Matrix<T> &matrix);
     int getHeight() const {return height;}
     int getWidth() const {return width;}
     void print() const;
@@ -29,11 +31,25 @@ public :
     T at(int x, int y) const {return matrix[y+x*width];}
     void setPixel(int x, int y, T value);
     void resize(int height, int width) ;
+    bool operator==(const Matrix<T> &matrix) const {
+        return this->matrix == matrix.matrix;
+    }
+    bool operator==(const vector<T> &vector) const {
+        return this->matrix == vector;
+    }
 };
 
 template<class T> Matrix<T>::Matrix() : Matrix(0, 0) {}
 
 template<class T> Matrix<T>::Matrix(int height, int width) : height(height), width(width) { matrix.resize(8*8);}
+
+template<class T> Matrix<T>::Matrix( const vector<T> &vector ) { this->matrix = vector; }
+
+template<class T> Matrix<T>::Matrix(const Matrix<T> &matrix) {
+    this->matrix = matrix.matrix;
+    this->height = matrix.height;
+    this->width = matrix.width;
+}
 
 template<class T> void Matrix<T>::resize(int height, int width){
     this->height = height;
