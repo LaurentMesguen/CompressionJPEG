@@ -1,6 +1,8 @@
-//
-// Created by FU427LME on 08/03/2023.
-//
+/*************************************************
+* Name     : JPEGEncoder.h                       *
+* Author   : MESGUEN Laurent                     *
+* Created  : 08.03.23                            *
+**************************************************/
 
 #ifndef COMPRESSIONJPEGCPP_JPEGENCODER_H
 #define COMPRESSIONJPEGCPP_JPEGENCODER_H

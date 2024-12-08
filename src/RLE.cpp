@@ -1,39 +1,44 @@
-//
-// Created by FU427LME on 10/03/2023.
-//
+/*************************************************
+* Name     : RLE.cpp                             *
+* Author   : MESGUEN Laurent                     *
+* Created  : 08.03.23                            *
+**************************************************/
 
 #include <iostream>
 #include "../include/RLE.h"
 
 std::vector<RLEItem> RLE::encodeVector(const std::vector<int>& input) {
     std::vector<RLEItem> encoded;
-    int zeroCount = 0;
+    int runLength = 0;
 
     for (size_t i = 0; i < input.size(); i++) {
         if (input[i] == 0)
         {
-            if(zeroCount == 15)
+            if(false && runLength == 15) // TODO replace the false with the boolean isZRLEnabled
             {
                 encoded.push_back(ZRL);
-                zeroCount = 0;
+                runLength = 0;
             }
             else
-                zeroCount++;
+                runLength++;
         }
         else {
-            encoded.push_back(RLEItem{input[i], zeroCount});
-            zeroCount = 0;
+            encoded.push_back(RLEItem{runLength, input[i] });
+            runLength = 0;
         }
     }
 
     encoded.push_back(EOB);
 
     // remove all ZRL before EOB
-    for (int i = encoded.size() - 2; i >= 0; i--) {
-        if (encoded[i].value == 0 && encoded[i].zeroCount == 15) {
-            encoded.erase(encoded.begin() + i);
-        } else {
-            break;
+    if(false) // TODO replace the false with the boolean isZRLEnabled
+    {
+        for (int i = encoded.size() - 2; i >= 0; i--) {
+            if (encoded[i].run == 0 && encoded[i].size == 15) {
+                encoded.erase(encoded.begin() + i);
+            } else {
+                break;
+            }
         }
     }
 
@@ -44,17 +49,17 @@ std::vector<int> RLE::decodeVector(const std::vector<RLEItem>& encoded) {
     std::vector<int> decoded;
 
     for (size_t i = 0; i < encoded.size(); i++) {
-        if (encoded[i].value == 0 && encoded[i].zeroCount == 0) {
+        if (encoded[i].run == 0 && encoded[i].size == 0) {
             break;
-        } else if (encoded[i].value == 0 && encoded[i].zeroCount == 15) {
+        } else if (encoded[i].run == 0 && encoded[i].size == 15) {
             for (int j = 0; j < 16; j++) {
                 decoded.push_back(0);
             }
         } else {
-            for (int j = 0; j < encoded[i].zeroCount; j++) {
+            for (int j = 0; j < encoded[i].size; j++) {
                 decoded.push_back(0);
             }
-            decoded.push_back(encoded[i].value);
+            decoded.push_back(encoded[i].run);
         }
     }
 

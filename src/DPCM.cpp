@@ -1,6 +1,8 @@
-//
-// Created by FU427LME on 11/03/2023.
-//
+/*************************************************
+* Name     : DPCM.cpp                            *
+* Author   : MESGUEN Laurent                     *
+* Created  : 08.03.23                            *
+**************************************************/
 
 #include "../include/DPCM.h"
 

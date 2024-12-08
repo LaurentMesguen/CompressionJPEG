@@ -11,8 +11,9 @@
 using namespace std;
 
 struct RLEItem {
-    int value;
-    int zeroCount;
+    int run; // number of zeros before the coefficient
+    int size; // number of bits necessary to code the coefficient in binary
+    string coefficientInBinary; // the binary string representation of the coefficient
 };
 
 using RLEVector = vector <RLEItem>;
@@ -21,6 +22,8 @@ const RLEItem EOB = {0, 0};
 const RLEItem ZRL = {0, 15};
 
 class RLE {
+private:
+    bool isZRLEnabled; // TODO add the implementation
 public:
     static vector<RLEVector> encode(const vector<vector<int>>& vectors);
     static vector<vector<int>> decode(const vector<RLEVector>& vectors);

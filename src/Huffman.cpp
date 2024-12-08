@@ -1,6 +1,8 @@
-//
-// Created by FU427LME on 10/03/2023.
-//
+/*************************************************
+* Name     : Huffman.cpp                         *
+* Author   : MESGUEN Laurent                     *
+* Created  : 08.03.23                            *
+**************************************************/
 
 #include "../include/Huffman.h"
 #include "../include/EncodingStrategy.h"

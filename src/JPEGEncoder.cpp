@@ -1,6 +1,8 @@
-//
-// Created by FU427LME on 08/03/2023.
-//
+/*************************************************
+* Name     : JPEGEncoder.cpp                     *
+* Author   : MESGUEN Laurent                     *
+* Created  : 08.03.23                            *
+**************************************************/
 
 #include <iostream>
 #include "../include/JPEGEncoder.h"
@@ -38,7 +40,7 @@ void JPEGEncoder::encode()
     dpcm();
     zigZagScan();
     rle();
-    //huffman();
+    huffman();
 }
 
 void JPEGEncoder::rle() {
@@ -185,17 +187,18 @@ void JPEGEncoder::printBlocks(const vector<Matrix<>>& blocks) {
  *
  */
 void JPEGEncoder::printBlocks() {
+    cout << "Printing blocks..." << endl;
     printBlocks(yBlocks);
     printBlocks(uBlocks);
     printBlocks(vBlocks);
 }
 
-void JPEGEncoder::printBlocksAfterDCT(const vector<Matrix<int>>& blocks) {
-    for(int i =0; i< blocks.size(); i++)
+void JPEGEncoder::printVector(const vector<int>& vec) {
+    for(int i = 0; i < vec.size(); i++)
     {
-        blocks.at(i).printSignedNumber();
-        cout << endl;
+        cout << vec.at(i) << " ";
     }
+    cout << endl;
 }
 
 void JPEGEncoder::printVectors(const vector<vector<int>>& vectors) {
@@ -215,18 +218,21 @@ void JPEGEncoder::printVectors() {
     printVectors(vVectorsAfterZigZagScan);
 }
 
-void JPEGEncoder::printVector(const vector<int>& vec) {
-    for(int i = 0; i < vec.size(); i++)
+
+
+void JPEGEncoder::printBlocksAfterDCT(const vector<Matrix<int>>& blocks) {
+    for(int i =0; i< blocks.size(); i++)
     {
-        cout << vec.at(i) << " ";
+        blocks.at(i).printSignedNumber();
+        cout << endl;
     }
-    cout << endl;
 }
 
 /**
  *
  */
 void JPEGEncoder::printBlocksAfterDCT() {
+    cout << "Printing blocks after DCT..." << endl;
     printBlocksAfterDCT(yBlocksAfterDCT);
     printBlocksAfterDCT(uBlocksAfterDCT);
     printBlocksAfterDCT(vBlocksAfterDCT);
@@ -307,9 +313,9 @@ void JPEGEncoder::printRLEVectors() {
 void JPEGEncoder::huffman()
 {
     cout << "Huffman encoding..." << endl;
-//    yHuffmanVectors = Huffman::encode(yRLEVectors);
-//    uHuffmanVectors = Huffman::encode(uRLEVectors);
-//    vHuffmanVectors = Huffman::encode(vRLEVectors);
+    //yHuffmanVectors = Huffman::encode(yRLEVectors);
+    //uHuffmanVectors = Huffman::encode(uRLEVectors);
+    //vHuffmanVectors = Huffman::encode(vRLEVectors);
     cout << "Huffman encoding done." << endl;
 }
 

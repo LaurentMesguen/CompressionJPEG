@@ -1,6 +1,8 @@
-//
-// Created by FU427LME on 05/03/2023.
-//
+/*************************************************
+* Name     : Config.cpp                          *
+* Author   : MESGUEN Laurent                     *
+* Created  : 08.03.23                            *
+**************************************************/
 
 #include <fstream>
 #include <iostream>
